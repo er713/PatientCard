@@ -1,4 +1,4 @@
-package pl.put.poznan.iwn.card;
+package pl.put.poznan.iwm.card;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import pl.put.poznan.iwm.fhir.FHIRDatabase;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -29,6 +30,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        db = new FHIRDatabase("http://localhost:8888/baseR4");
+
         scene = new Scene(Objects.requireNonNull(loadFXML(PRIMARY)));
         App.stage = stage;
 
@@ -37,8 +40,6 @@ public class App extends Application {
         stage.show();
         positionX = stage.getX();
         positionY = stage.getY();
-
-        db = new FHIRDatabase("http://localhost:8888/baseR4");
     }
 
     static void setRoot(String fxml) {
@@ -64,7 +65,7 @@ public class App extends Application {
             System.out.printf("%f %f\n", minimizedBorder.getMinX(), minimizedBorder.getMinY());
             stage.setWidth(minimizedBorder.getWidth());
             stage.setHeight(minimizedBorder.getHeight());
-            stage.show();
+//            stage.show();
             stage.setX(minimizedBorder.getMinX());
             stage.setY(minimizedBorder.getMinY());
             maximized = false;
@@ -93,6 +94,11 @@ public class App extends Application {
     public static void setPosition() {
         positionX = stage.getX();
         positionY = stage.getY();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
     }
 
     public static void main(String[] args) {

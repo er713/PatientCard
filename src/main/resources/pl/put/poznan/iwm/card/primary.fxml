@@ -10,7 +10,7 @@
 <?import javafx.scene.control.Separator?>
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="400.0" prefHeight="400.0"
           prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-          fx:id="main" vgap="5" fx:controller="pl.put.poznan.iwn.card.PrimaryController">
+          fx:id="main" vgap="5" fx:controller="pl.put.poznan.iwm.card.PrimaryController">
     <stylesheets>
         <URL value="@primary.css"/>
     </stylesheets>

@@ -1,4 +1,4 @@
-package pl.put.poznan.iwn.card;
+package pl.put.poznan.iwm.card;
 
 import java.io.IOException;
 import javafx.fxml.FXML;

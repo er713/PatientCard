@@ -1,4 +1,4 @@
-package pl.put.poznan.iwn.card;
+package pl.put.poznan.iwm.card;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

@@ -1,4 +1,4 @@
-package pl.put.poznan.iwn.card;
+package pl.put.poznan.iwm.card;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
@@ -9,10 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.util.Formatter;
 
 public class ListItem {
 

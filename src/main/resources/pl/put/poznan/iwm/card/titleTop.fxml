@@ -9,7 +9,7 @@
 
 <?import javafx.geometry.Insets?>
 <GridPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="pl.put.poznan.iwn.card.TitleTopController" onMousePressed="#startDrag"
+          fx:controller="pl.put.poznan.iwm.card.TitleTopController" onMousePressed="#startDrag"
           onMouseDragged="#moveWindow"
           onMouseReleased="#stopDrag" fx:id="bar">
     <padding>

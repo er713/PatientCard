@@ -1,4 +1,4 @@
-package pl.put.poznan.iwn.card;
+package pl.put.poznan.iwm.fhir;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.hl7.fhir.r4.model.*;

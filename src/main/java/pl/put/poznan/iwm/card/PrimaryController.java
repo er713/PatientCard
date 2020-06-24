@@ -1,14 +1,12 @@
-package pl.put.poznan.iwn.card;
+package pl.put.poznan.iwm.card;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import pl.put.poznan.iwm.fhir.PatientData;
 
 public class PrimaryController {
 
