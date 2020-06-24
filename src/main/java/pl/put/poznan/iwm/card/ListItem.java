@@ -27,13 +27,13 @@ public class ListItem {
         columnConstraints.setHgrow(Priority.SOMETIMES);
         columnConstraints.setPercentWidth(30.0);
         item.getColumnConstraints().add(columnConstraints);
-        ColumnConstraints columnConstraints0 = new ColumnConstraints();
-        columnConstraints0.setHgrow(Priority.SOMETIMES);
-        columnConstraints0.setPercentWidth(1.0);
-        item.getColumnConstraints().add(columnConstraints0);
+//        ColumnConstraints columnConstraints0 = new ColumnConstraints();
+//        columnConstraints0.setHgrow(Priority.SOMETIMES);
+//        columnConstraints0.setPercentWidth(1.0);
+//        item.getColumnConstraints().add(columnConstraints0);
         ColumnConstraints columnConstraints1 = new ColumnConstraints();
         columnConstraints1.setHgrow(Priority.SOMETIMES);
-        columnConstraints1.setPercentWidth(69.0);
+        columnConstraints1.setPercentWidth(70.0);
         item.getColumnConstraints().add(columnConstraints1);
         item.setHgap(10.0);
         item.getStyleClass().clear();
@@ -43,17 +43,17 @@ public class ListItem {
 //        item.getChildren().add(new Text(name));
         item.addColumn(0, new Text(name));
 
-        Separator sep = new Separator();
-        sep.setOrientation(Orientation.VERTICAL);
-        item.addColumn(1, sep);
+//        Separator sep = new Separator();
+//        sep.setOrientation(Orientation.VERTICAL);
+//        item.addColumn(1, sep);
 
         Period period = Period.between(LocalDate.from(recent), LocalDate.now());
         if (period.getYears() >= 1) {// TODO: polskie odmiany
-            item.addColumn(2, new Text(String.format("%d lata", period.getYears())));
+            item.addColumn(1, new Text(String.format("%d lat", period.getYears())));
         } else if (period.getMonths() >= 1) {
-            item.addColumn(2, new Text(String.format("%d miesięcy", period.getMonths())));
+            item.addColumn(1, new Text(String.format("%d miesięcy", period.getMonths())));
         } else {
-            item.addColumn(2, new Text(String.format("%d dni", period.getDays())));
+            item.addColumn(1, new Text(String.format("%d dni", period.getDays())));
         }
 
         list.getChildren().add(item);

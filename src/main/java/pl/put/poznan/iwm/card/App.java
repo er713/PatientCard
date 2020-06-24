@@ -9,6 +9,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import pl.put.poznan.iwm.fhir.FHIRDatabase;
+import pl.put.poznan.iwm.fhir.PatientData;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -46,6 +47,19 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
+    static void setRoot(String fxml, PatientData patient){
+        var loader = loadFXML(fxml, patient);
+        Parent loaded = null;
+        try {
+            loaded = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        SecondaryController controller = loader.getController();
+
+    }
+
     private static Parent loadFXML(String fxml) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
@@ -54,6 +68,10 @@ public class App extends Application {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static FXMLLoader loadFXML(String fxml, PatientData patient) {
+        return new FXMLLoader(App.class.getResource(fxml + ".fxml"));
     }
 
     public static void minimize() {

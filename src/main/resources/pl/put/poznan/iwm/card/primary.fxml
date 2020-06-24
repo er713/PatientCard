@@ -20,7 +20,7 @@
 
     <HBox GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="CENTER" spacing="20">
         <Text>Wyszukaj nazwisko:</Text>
-        <TextField fx:id="searchName" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <TextField fx:id="searchName" GridPane.columnIndex="1" GridPane.rowIndex="1" >
             <!--            <padding>-->
             <!--                <Insets top="5" bottom="5"/>-->
             <!--            </padding>-->
@@ -33,12 +33,12 @@
         </padding>
         <GridPane hgap="10" style="-fx-background-color: steelblue">
             <Text style="-fx-font-weight: bold" GridPane.columnIndex="0">Imię Nazwisko</Text>
-            <Separator orientation="VERTICAL" GridPane.columnIndex="1" style="-fx-background-color: steelblue"/>
-            <Text style="-fx-font-weight: bold" GridPane.columnIndex="2">Wiek</Text>
+<!--            <Separator orientation="VERTICAL" GridPane.columnIndex="1" style="-fx-background-color: steelblue"/>-->
+            <Text style="-fx-font-weight: bold" GridPane.columnIndex="1">Wiek</Text>
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="30"/>
-                <ColumnConstraints hgrow="SOMETIMES" percentWidth="1"/>
-                <ColumnConstraints hgrow="SOMETIMES" percentWidth="69"/>
+<!--                <ColumnConstraints hgrow="SOMETIMES" percentWidth="1"/>-->
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="70"/>
             </columnConstraints>
         </GridPane>
         <ScrollPane>

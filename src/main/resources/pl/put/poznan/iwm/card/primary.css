@@ -5,6 +5,7 @@
 .item {
     -fx-background-color: white;
     -fx-font-weight: normal;
+    -fx-padding: 10 5 10 5;
 }
 
 .item:hover {
