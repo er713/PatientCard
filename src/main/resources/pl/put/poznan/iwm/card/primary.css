@@ -1,0 +1,24 @@
+#main {
+    -fx-background-color: white;
+}
+
+.item {
+    -fx-background-color: white;
+    -fx-font-weight: normal;
+}
+
+.item:hover {
+    -fx-background-color: lightblue;
+}
+
+/*#titleRow {
+    -fx-font-weight: bold;
+}*/
+
+.scroll-pane, VBox {
+    -fx-background-color: white;
+}
+
+.text-field {
+    -fx-background-radius: 0;
+}

@@ -1,0 +1,26 @@
+Button {
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+
+#exit {
+    -fx-background-color: red;
+}
+
+Text {
+    /*-fx-font-family: "Luxi Sans";*/
+    /*-fx-font-style: italic;*/
+    /*-fx-text-fill: firebrick;*/
+    -fx-font-weight: bolder;
+    /*-fx-text-fill: dodgerblue;*/
+    -fx-text-alignment: center;
+}
+
+#bar{
+    -fx-background-color: aqua;
+}
+
+/*# sourceMappingURL=titleTop.css.map */

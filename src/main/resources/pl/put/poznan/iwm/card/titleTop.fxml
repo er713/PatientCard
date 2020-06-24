@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import java.lang.Double?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Button?>
+<?import java.net.URL?>
+
+
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="pl.put.poznan.iwn.card.TitleTopController" onMousePressed="#startDrag"
+          onMouseDragged="#moveWindow"
+          onMouseReleased="#stopDrag" fx:id="bar">
+    <padding>
+        <Insets left="10"/>
+    </padding>
+    <stylesheets>
+        <URL value="@titleTop.css"/>
+    </stylesheets>
+    <fx:define>
+        <Double fx:id="BUTTONS_WIDTH" fx:value="45.0"/>
+    </fx:define>
+
+    <Text GridPane.columnIndex="0">
+        Tytuł
+    </Text>
+
+    <Button GridPane.columnIndex="1" fx:id="minimize" onMouseClicked="#minimizeClick" onMouseEntered="#minimizeFocus"
+            onMouseExited="#minimizeRefocus" minHeight="$BUTTONS_WIDTH" minWidth="$BUTTONS_WIDTH"
+            maxHeight="$BUTTONS_WIDTH" maxWidth="$BUTTONS_WIDTH">-
+    </Button>
+    <Button GridPane.columnIndex="2" fx:id="maximize" onMouseClicked="#maximizeClick" onMouseEntered="#maximizeFocus"
+            onMouseExited="#maximizeRefocus" minHeight="$BUTTONS_WIDTH" minWidth="$BUTTONS_WIDTH"
+            maxHeight="$BUTTONS_WIDTH" maxWidth="$BUTTONS_WIDTH">[]
+    </Button>
+    <Button GridPane.columnIndex="3" fx:id="exit" id="exit" onMouseClicked="#exitClick" onMouseEntered="#exitFocus"
+            onMouseExited="#exitRefocus" minHeight="$BUTTONS_WIDTH" minWidth="$BUTTONS_WIDTH" maxHeight="$BUTTONS_WIDTH"
+            maxWidth="$BUTTONS_WIDTH">X
+    </Button>
+
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="70.0"/>
+        <ColumnConstraints hgrow="NEVER" minWidth="$BUTTONS_WIDTH" maxWidth="$BUTTONS_WIDTH"/>
+        <ColumnConstraints hgrow="NEVER" minWidth="$BUTTONS_WIDTH" maxWidth="$BUTTONS_WIDTH"/>
+        <ColumnConstraints hgrow="NEVER" minWidth="$BUTTONS_WIDTH" maxWidth="$BUTTONS_WIDTH"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="$BUTTONS_WIDTH" maxHeight="$BUTTONS_WIDTH" vgrow="NEVER"/>
+        <!--        <RowConstraints maxHeight="40.0" minHeight="40.0" vgrow="NEVER"/>-->
+    </rowConstraints>
+</GridPane>

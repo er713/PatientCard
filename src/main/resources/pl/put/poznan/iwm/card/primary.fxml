@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Separator?>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="400.0" prefHeight="400.0"
+          prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+          fx:id="main" vgap="5" fx:controller="pl.put.poznan.iwn.card.PrimaryController">
+    <stylesheets>
+        <URL value="@primary.css"/>
+    </stylesheets>
+
+    <fx:include source="titleTop.fxml" fx:id="title" minWidth="${main.prefWidth}" GridPane.columnIndex="0"
+                GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="CENTER" spacing="20">
+        <Text>Wyszukaj nazwisko:</Text>
+        <TextField fx:id="searchName" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <!--            <padding>-->
+            <!--                <Insets top="5" bottom="5"/>-->
+            <!--            </padding>-->
+        </TextField>
+    </HBox>
+
+    <VBox GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2">
+        <padding>
+            <Insets top="20" bottom="30" left="50" right="50"/>
+        </padding>
+        <GridPane hgap="10" style="-fx-background-color: steelblue">
+            <Text style="-fx-font-weight: bold" GridPane.columnIndex="0">Imię Nazwisko</Text>
+            <Separator orientation="VERTICAL" GridPane.columnIndex="1" style="-fx-background-color: steelblue"/>
+            <Text style="-fx-font-weight: bold" GridPane.columnIndex="2">Wiek</Text>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="30"/>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="1"/>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="69"/>
+            </columnConstraints>
+        </GridPane>
+        <ScrollPane>
+            <VBox fx:id="listName" spacing="1">
+
+            </VBox>
+        </ScrollPane>
+    </VBox>
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES"/>
+        <!--        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50"/>-->
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="45.0" maxHeight="45.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="35.0" maxHeight="35.0" vgrow="SOMETIMES"/>
+        <RowConstraints vgrow="SOMETIMES" minHeight="70.0"/>
+    </rowConstraints>
+
+</GridPane>
