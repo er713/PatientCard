@@ -1,27 +1,23 @@
-#main {
+.sec {
     -fx-background-color: white;
 }
 
-.item {
+.history {
     -fx-background-color: white;
-    -fx-font-weight: normal;
-    -fx-padding: 10 5 10 5;
 }
 
-.item:hover {
-    -fx-background-color: lightblue;
-}
-
-/*#titleRow {
+.date {
     -fx-font-weight: bold;
-}*/
-
-.scroll-pane, VBox {
-    -fx-background-color: white;
+    -fx-font-size: 20pt;
+    -fx-text-alignment: center;
+    -fx-background-radius: 100%;
+    -fx-background-color: lightblue;
+    -fx-text-fill: white;
 }
 
-.text-field {
-    -fx-background-radius: 0;
+.bad {
+    -fx-text-alignment: center;
+
 }
 
 .scroll-bar:vertical .track, .increment-button, .decrement-button {
@@ -30,6 +26,11 @@
 }
 
 .scroll-bar:vertical .thumb {
+    -fx-background-radius: 0;
+    -fx-background-color: lightblue;
+}
+
+.backButton {
     -fx-background-radius: 0;
     -fx-background-color: lightblue;
 }

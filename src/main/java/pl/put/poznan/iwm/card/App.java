@@ -47,7 +47,7 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
-    static void setRoot(String fxml, PatientData patient){
+    static void setRoot(String fxml, PatientData patient) {
         var loader = loadFXML(fxml, patient);
         Parent loaded = null;
         try {
@@ -57,7 +57,8 @@ public class App extends Application {
             return;
         }
         SecondaryController controller = loader.getController();
-
+        controller.setPatient(patient);
+        scene.setRoot(loaded);
     }
 
     private static Parent loadFXML(String fxml) {
@@ -112,6 +113,12 @@ public class App extends Application {
     public static void setPosition() {
         positionX = stage.getX();
         positionY = stage.getY();
+    }
+
+    public static double getWindowWidth() {
+        if (scene != null)
+            return scene.getWidth();
+        return 100.0;
     }
 
     @Override

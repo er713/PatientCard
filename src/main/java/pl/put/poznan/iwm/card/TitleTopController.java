@@ -65,7 +65,7 @@ public class TitleTopController {
 
     @FXML
     public void minimizeRefocus(MouseEvent mouseEvent) {
-        minimize.setStyle("-fx-background-color: rgba(0,0,0,0)");
+        minimize.setStyle("-fx-background-color: transparent");
     }
 
     @FXML
@@ -75,16 +75,16 @@ public class TitleTopController {
 
     @FXML
     public void maximizeRefocus(MouseEvent mouseEvent) {
-        maximize.setStyle("-fx-background-color: rgba(0,0,0,0)");
+        maximize.setStyle("-fx-background-color: transparent");
     }
 
     @FXML
     public void exitFocus(MouseEvent mouseEvent) {
-        exit.setStyle("-fx-background-color: brown");
+        exit.setStyle("-fx-background-color: red");
     }
 
     @FXML
     public void exitRefocus(MouseEvent mouseEvent) {
-        exit.setStyle("-fx-background-color: red");
+        exit.setStyle("-fx-background-color: brown");
     }
 }

@@ -7,7 +7,7 @@ Button {
 }
 
 #exit {
-    -fx-background-color: red;
+    -fx-background-color: brown;
 }
 
 Text {
@@ -20,7 +20,7 @@ Text {
 }
 
 #bar{
-    -fx-background-color: aqua;
+    -fx-background-color: steelblue;
 }
 
 /*# sourceMappingURL=titleTop.css.map */

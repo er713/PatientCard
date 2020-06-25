@@ -44,6 +44,7 @@ public class PrimaryController {
             loader.start();
         });
 
+//        listName.setPrefWidth(App.getWindowWidth() - listName.getPadding().getRight() - listName.getPadding().getLeft());
         initPatientList();
     }
 
@@ -52,7 +53,9 @@ public class PrimaryController {
         List<PatientData> patients = App.db.getPatientList(null);
 
         for (var p : patients) {
-            ListItem.generateItem(listName, p.firstName() + " " + p.lastName(), p.birthDate(), "secondary");
+            ListItem.generateItem(
+                    listName, p.firstName() + " " + p.lastName(), p.birthDate(), "secondary", p
+            );
         }
     }
 
@@ -61,7 +64,9 @@ public class PrimaryController {
         List<PatientData> patients = App.db.getPatientList(name);
 
         for (var p : patients) {
-            ListItem.generateItem(listName, p.firstName() + " " + p.lastName(), p.birthDate(), "secondary");
+            ListItem.generateItem(
+                    listName, p.firstName() + " " + p.lastName(), p.birthDate(), "secondary", p
+            );
         }
     }
 

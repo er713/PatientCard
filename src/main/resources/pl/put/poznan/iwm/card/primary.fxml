@@ -8,8 +8,8 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Separator?>
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="400.0" prefHeight="400.0"
-          prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="400.0" prefHeight="700.0"
+          prefWidth="1100.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
           fx:id="main" vgap="5" fx:controller="pl.put.poznan.iwm.card.PrimaryController">
     <stylesheets>
         <URL value="@primary.css"/>
@@ -32,16 +32,16 @@
             <Insets top="20" bottom="30" left="50" right="50"/>
         </padding>
         <GridPane hgap="10" style="-fx-background-color: steelblue">
-            <Text style="-fx-font-weight: bold" GridPane.columnIndex="0">Imię Nazwisko</Text>
+            <Text style="-fx-font-weight: bold" GridPane.columnIndex="0">Full Name</Text>
 <!--            <Separator orientation="VERTICAL" GridPane.columnIndex="1" style="-fx-background-color: steelblue"/>-->
-            <Text style="-fx-font-weight: bold" GridPane.columnIndex="1">Wiek</Text>
+            <Text style="-fx-font-weight: bold" GridPane.columnIndex="1">Age</Text>
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="30"/>
 <!--                <ColumnConstraints hgrow="SOMETIMES" percentWidth="1"/>-->
                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="70"/>
             </columnConstraints>
         </GridPane>
-        <ScrollPane>
+        <ScrollPane fitToWidth="true">
             <VBox fx:id="listName" spacing="1">
 
             </VBox>
