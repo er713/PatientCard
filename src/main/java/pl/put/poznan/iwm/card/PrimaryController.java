@@ -8,7 +8,6 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import pl.put.poznan.iwm.fhir.PatientData;
 
 public class PrimaryController {
 

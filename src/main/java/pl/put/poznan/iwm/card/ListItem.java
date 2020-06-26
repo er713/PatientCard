@@ -1,7 +1,6 @@
 package pl.put.poznan.iwm.card;
 
 import javafx.geometry.HPos;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Separator;
@@ -10,8 +9,6 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pl.put.poznan.iwm.fhir.PatientData;
-import pl.put.poznan.iwm.fhir.PatientMedicationElement;
 
 import java.time.LocalDate;
 import java.time.Period;

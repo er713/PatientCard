@@ -7,11 +7,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.Nullable;
-import pl.put.poznan.iwm.fhir.PatientData;
-import pl.put.poznan.iwm.fhir.PatientMedicationElement;
-import pl.put.poznan.iwm.fhir.PatientObservationElement;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;

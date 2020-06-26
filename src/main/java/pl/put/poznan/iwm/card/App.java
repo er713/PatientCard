@@ -8,8 +8,6 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import pl.put.poznan.iwm.fhir.FHIRDatabase;
-import pl.put.poznan.iwm.fhir.PatientData;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -26,7 +24,7 @@ public class App extends Application {
     private static Scene scene;
     private static Stage stage;
     private static boolean maximized = false;
-    private static final Rectangle2D bounds = Screen.getPrimary().getBounds();
+    private static Rectangle2D bounds;
     private static Rectangle2D minimizedBorder;
 
     @Override
@@ -43,6 +41,7 @@ public class App extends Application {
         stage.show();
         positionX = stage.getX();
         positionY = stage.getY();
+        bounds = Screen.getPrimary().getBounds();
     }
 
     static void setRoot(String fxml) {
