@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressIndicator?>
 <GridPane alignment="CENTER" vgap="20.0" hgap="10.0" xmlns="http://javafx.com/javafx/8.0.171"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.put.poznan.iwm.card.SecondaryController"
           styleClass="sec" fx:id="grid" prefHeight="700.0" prefWidth="1100.0">
@@ -16,20 +17,41 @@
 
     <fx:include source="titleTop.fxml" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
-    <Button GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="backButton" onMouseClicked="#switchToPrimary"/>
+    <!--    <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">-->
+    <!--        -->
+    <!--    </HBox>-->
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="CENTER">
 
-    <HBox GridPane.rowIndex="2" GridPane.columnIndex="0" spacing="30" alignment="CENTER">
-        <HBox alignment="CENTER" spacing="15">
-            <Label>From:</Label>
-            <DatePicker fx:id="from" />
-        </HBox>
-        <HBox alignment="CENTER" spacing="15">
-            <Label>To:</Label>
-            <DatePicker fx:id="to" />
-        </HBox>
+        <Label fx:id="name"/>
     </HBox>
 
-    <ScrollPane GridPane.rowIndex="3" GridPane.columnIndex="0"  fitToWidth="true">
+    <GridPane GridPane.rowIndex="2" GridPane.columnIndex="0" hgap="30">
+        <ProgressIndicator GridPane.columnIndex="0" disable="true" visible="false" fx:id="progress" />
+        <HBox GridPane.columnIndex="1" alignment="CENTER" spacing="30">
+            <HBox alignment="CENTER" spacing="15">
+<!--                <Label>From:</Label>-->
+                <DatePicker fx:id="from" promptText="From"/>
+            </HBox>
+            <HBox alignment="CENTER" spacing="15">
+<!--                <Label>To:</Label>-->
+                <DatePicker fx:id="to" promptText="To"/>
+            </HBox>
+        </HBox>
+        <Button styleClass="backButton" onMouseClicked="#switchToPrimary"
+                alignment="CENTER_RIGHT" text="Show Patient List" textFill="black"
+                GridPane.columnIndex="2"/>
+
+        <columnConstraints>
+            <ColumnConstraints percentWidth="15" hgrow="SOMETIMES" halignment="CENTER"/>
+            <ColumnConstraints percentWidth="70" hgrow="SOMETIMES"/>
+            <ColumnConstraints percentWidth="15" hgrow="SOMETIMES"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES"/>
+        </rowConstraints>
+    </GridPane>
+
+    <ScrollPane GridPane.rowIndex="3" GridPane.columnIndex="0" fitToWidth="true">
         <VBox spacing="15.0" fx:id="history" styleClass="history" alignment="CENTER" prefWidth="${grid.prefWidth}">
             <padding>
                 <Insets left="20" right="20" top="20" bottom="20"/>
@@ -42,7 +64,8 @@
     </columnConstraints>
     <rowConstraints>
         <RowConstraints minHeight="45.0" maxHeight="45.0" vgrow="NEVER"/>
-        <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="NEVER"/>
+        <!--        <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="NEVER"/>-->
+        <RowConstraints minHeight="60.0" maxHeight="60.0" vgrow="NEVER" valignment="CENTER"/>
         <RowConstraints minHeight="60.0" maxHeight="60.0" vgrow="NEVER"/>
         <RowConstraints vgrow="SOMETIMES"/>
     </rowConstraints>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -16,11 +17,12 @@ public class PrimaryController {
     public TextField searchName;
     public GridPane title;
     public GridPane main;
+    public ProgressIndicator progress;
 
     private Thread loader = null;
     private final Runnable waitAndLoad = () -> {
         try {
-            Thread.sleep(1500);
+            Thread.sleep(900);
         } catch (InterruptedException e) {
 //            e.printStackTrace();
             System.out.println("Przerwano czekanie");
@@ -28,9 +30,9 @@ public class PrimaryController {
         }
         String name = searchName.getText();
         if (!name.equals(""))
-            Platform.runLater(() -> this.initPatientList(name));
+            this.initPatientList(name);
         else
-            Platform.runLater(() -> this.initPatientList());
+            this.initPatientList();
     };
 
     @FXML
@@ -45,30 +47,52 @@ public class PrimaryController {
         });
 
 //        listName.setPrefWidth(App.getWindowWidth() - listName.getPadding().getRight() - listName.getPadding().getLeft());
-        initPatientList();
+        new Thread(() -> initPatientList()).start();
     }
 
     private void initPatientList() {
-        listName.getChildren().clear();
+        Platform.runLater(() -> {
+            startLoading();
+            listName.getChildren().clear();
+        });
         List<PatientData> patients = App.db.getPatientList(null);
 
         for (var p : patients) {
-            ListItem.generateItem(
+            Platform.runLater(() -> ListItem.generateItem(
                     listName, p.firstName() + " " + p.lastName(), p.birthDate(), "secondary", p
-            );
+            ));
         }
+        Platform.runLater(() -> stopLoading());
     }
 
     private void initPatientList(String name) {
-        listName.getChildren().clear();
+        Platform.runLater(() -> {
+            startLoading();
+            listName.getChildren().clear();
+        });
         List<PatientData> patients = App.db.getPatientList(name);
 
         for (var p : patients) {
-            ListItem.generateItem(
+            Platform.runLater(() -> ListItem.generateItem(
                     listName, p.firstName() + " " + p.lastName(), p.birthDate(), "secondary", p
-            );
+            ));
         }
+        Platform.runLater(() -> stopLoading());
+
     }
 
+    private void startLoading() {
+        progress.setVisible(true);
+        progress.setDisable(false);
+        searchName.setDisable(true);
+        listName.setDisable(true);
+    }
+
+    private void stopLoading() {
+        progress.setVisible(false);
+        progress.setDisable(true);
+        searchName.setDisable(false);
+        listName.setDisable(false);
+    }
 
 }

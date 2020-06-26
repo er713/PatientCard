@@ -9,7 +9,7 @@ public abstract class PatientHistoryElement {
     private final LocalDate when;
     private final String detail;
 
-    public PatientHistoryElement(String id, String title, LocalDate when, String detail){
+    public PatientHistoryElement(String id, String title, LocalDate when, String detail) {
         this.id = id;
         this.title = title;
         this.when = when;
@@ -26,5 +26,9 @@ public abstract class PatientHistoryElement {
 
     public LocalDate getWhen() {
         return when;
+    }
+
+    public String getDetail() {
+        return detail;
     }
 }

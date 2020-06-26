@@ -1,20 +1,20 @@
 package pl.put.poznan.iwm.fhir;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.IQuery;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.r4.model.*;
 import ca.uhn.fhir.context.FhirContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.temporal.TemporalAccessor;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class FHIRDatabase {
 
@@ -49,16 +49,15 @@ public class FHIRDatabase {
                 patient = (Patient) p.getResource();
                 var name = nameSearch.matcher(patient.getName().get(0).getGivenAsSingleString());
                 var last = nameSearch.matcher(patient.getName().get(0).getFamily());
-                name.find();
-                last.find();
+//                name.find();
+//                last.find();
                 res.add(new PatientData(
                         patient.getIdElement().getIdPart(),
-                        name.group(),
-                        last.group(),
-                        patient.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                        (patient.getDeceasedDateTimeType().getValue() != null) ?
-                                patient.getDeceasedDateTimeType().getValue()
-                                        .toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null
+                        (name.find()) ? name.group() : null,
+                        (last.find()) ? last.group() : null,
+                        (patient.hasBirthDate()) ? patient.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null,
+                        (patient.hasDeceasedDateTimeType()) ? patient.getDeceasedDateTimeType().getValue()
+                                .toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null
                 ));
             }
 
@@ -76,16 +75,7 @@ public class FHIRDatabase {
 
         var query = client.search().forResource(Observation.class)
                 .where(Observation.PATIENT.hasId(patientData.id()));
-        if (begin != null) {
-            query.and(Observation.DATE.afterOrEquals().day(
-                    Date.from(begin.atStartOfDay(ZoneId.systemDefault()).toInstant())
-            ));
-        }
-        if (end != null) {
-            query.and(Observation.DATE.beforeOrEquals().day(
-                    Date.from(end.atStartOfDay(ZoneId.systemDefault()).toInstant())
-            ));
-        }
+        addDateRestriction(begin, end, query);
         Bundle bundle = query.returnBundle(Bundle.class).execute();
 
         Observation observation;
@@ -100,7 +90,7 @@ public class FHIRDatabase {
 //                        (observation.getValueQuantity().getValue() != null) ? observation.getValueQuantity()
 //                                .getValue().setScale(2, RoundingMode.HALF_EVEN)
 //                                .toString() + " [" + observation.getValueQuantity().getUnit() + "]" : null
-                        (observation.hasValue()) ? observation.getValue().toString() : null //TODO: obsługa
+                        (observation.hasValue()) ? getObservationValue(observation) : null //TODO: obsługa
                 ));
             }
             if (bundle.getLink(Bundle.LINK_NEXT) != null) {
@@ -110,16 +100,7 @@ public class FHIRDatabase {
 
         query = client.search().forResource(MedicationRequest.class)
                 .where(MedicationRequest.PATIENT.hasId(patientData.id()));
-        if (begin != null) {
-            query.and(Observation.DATE.afterOrEquals().day(
-                    Date.from(begin.atStartOfDay(ZoneId.systemDefault()).toInstant())
-            ));
-        }
-        if (end != null) {
-            query.and(Observation.DATE.beforeOrEquals().day(
-                    Date.from(end.atStartOfDay(ZoneId.systemDefault()).toInstant())
-            ));
-        }
+        addDateRestriction(begin, end, query);
         bundle = query.returnBundle(Bundle.class).execute();
 
         MedicationRequest medication;
@@ -129,9 +110,19 @@ public class FHIRDatabase {
                 medication = (MedicationRequest) b.getResource();
                 res.add(new PatientMedicationElement(
                         medication.getIdElement().getIdPart(),
-                        medication.getMedicationCodeableConcept().getText(),
+                        (medication.hasMedicationCodeableConcept()) ? medication.getMedicationCodeableConcept().getText() :
+                                null,
                         medication.getAuthoredOn().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                        null
+                        (medication.hasMedicationReference() && medication.getMedicationReference().hasReference()) ?
+                                checkoutMedicine(medication.getMedicationReference().getReference()) :
+                                "Form: No information\nDescription: No information\n",
+                        (medication.hasDosageInstruction()) ?
+                                medication.getDosageInstruction().stream().map(dosage -> dosage.getText())
+                                        .collect(Collectors.joining("\n")) : null,
+                        (medication.hasStatus()) ? medication.getStatus().getDisplay() : null,
+                        (medication.hasPriority()) ? medication.getPriority().getDisplay() : null,
+                        (medication.hasNote()) ? medication.getNote().stream().map(annotation -> annotation.getText())
+                                .collect(Collectors.joining("\n")) : null
                 ));
             }
             if (bundle.getLink(Bundle.LINK_NEXT) != null) {
@@ -145,6 +136,67 @@ public class FHIRDatabase {
         Collections.reverse(res);
 
         return res;
+    }
+
+    private String checkoutMedicine(String medicationUrl) {
+        Bundle bundle = client.loadPage().byUrl(medicationUrl).andReturnBundle(Bundle.class).execute();
+        Medication medication;
+        if (bundle != null) {
+            medication = (Medication) bundle.getEntry().get(0).getResource();
+
+            return String.format("Form: %s\nDescription: %s\n", medication.getForm().getText(), medication.getText());
+        }
+        return "Form: No information\nDescription: No information\n";
+    }
+
+    private void addDateRestriction(@Nullable LocalDate begin, @Nullable LocalDate end, IQuery<IBaseBundle> query) {
+        if (begin != null) {
+            query.and(Observation.DATE.afterOrEquals().day(
+                    Date.from(begin.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            ));
+        }
+        if (end != null) {
+            query.and(Observation.DATE.beforeOrEquals().day(
+                    Date.from(end.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            ));
+        }
+    }
+
+    private String getObservationValue(Observation observation) {
+        String result = null;
+        if (observation.hasValueQuantity()) {
+            result = observation.getValueQuantity().getValue().setScale(2, RoundingMode.HALF_EVEN).toString()
+                    + " [" + observation.getValueQuantity().getUnit() + "]";
+        } else if (observation.hasValueCodeableConcept()) {
+            result = observation.getValueCodeableConcept().getText();
+        } else if (observation.hasValueStringType()) {
+            result = observation.getValueStringType().getValue();
+        } else if (observation.hasValueRange()) {
+            result = "range from " +
+                    observation.getValueRange().getLow().getValue().setScale(2, RoundingMode.HALF_EVEN).toString()
+                    + " to "
+                    + observation.getValueRange().getHigh().getValue().setScale(2, RoundingMode.HALF_EVEN).toString()
+                    + " " + observation.getValueRange().getHigh().getUnit();
+        } else if (observation.hasValueRatio()) {
+            result = "ratio " +
+                    observation.getValueRatio().getNumerator().getValue().setScale(0, RoundingMode.HALF_EVEN).toString()
+                    + ":" +
+                    observation.getValueRatio().getDenominator().getValue().setScale(0, RoundingMode.HALF_EVEN).toString();
+        } else if (observation.hasValueTimeType()) {
+            result = observation.getValueTimeType().getValue();
+        } else if (observation.hasValueDateTimeType()) {
+            result = observation.getValueDateTimeType().getValue().toString();
+        } else if (observation.hasValuePeriod()) {
+            result = "period from " +
+                    observation.getValuePeriod().getStart().toString() + " to "
+                    + observation.getValuePeriod().getEnd().toString();
+        } else if (observation.hasValueBooleanType()) {
+            result = (observation.getValueBooleanType().getValue()) ? "Yes" : "No";
+        } else if (observation.hasValueIntegerType()) {
+            result = observation.getValueIntegerType().getValue().toString();
+        } else return null;
+
+        return result;
     }
 
 }

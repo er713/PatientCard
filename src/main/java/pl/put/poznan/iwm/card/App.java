@@ -32,6 +32,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         db = new FHIRDatabase("http://localhost:8888/baseR4");
+//        db = new FHIRDatabase("http://hapi.fhir.org/baseR4");
+
 
         scene = new Scene(Objects.requireNonNull(loadFXML(PRIMARY)));
         App.stage = stage;

@@ -21,7 +21,7 @@ public class FHIRDatabaseTest {
 
     @Test
     public void testPattern() {
-        String name = "Amama3241";
+        String name = "Amama";
         Matcher match = nameSearch.matcher(name);
         if (match.find()) {
             String res = match.group();

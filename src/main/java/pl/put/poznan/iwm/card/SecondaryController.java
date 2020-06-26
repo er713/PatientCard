@@ -1,21 +1,21 @@
 package pl.put.poznan.iwm.card;
 
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import org.jetbrains.annotations.Nullable;
+import pl.put.poznan.iwm.fhir.PatientData;
+import pl.put.poznan.iwm.fhir.PatientMedicationElement;
+import pl.put.poznan.iwm.fhir.PatientObservationElement;
+
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import org.jetbrains.annotations.Nullable;
-import pl.put.poznan.iwm.fhir.PatientData;
-import pl.put.poznan.iwm.fhir.PatientHistoryElement;
 
 public class SecondaryController {
 
@@ -27,6 +27,8 @@ public class SecondaryController {
     public VBox history;
     public DatePicker from;
     public DatePicker to;
+    public ProgressIndicator progress;
+    public Label name;
 
     private PatientData patient;
 
@@ -43,7 +45,7 @@ public class SecondaryController {
             }
         });
         to.valueProperty().addListener((observableValue, localDate, t1) ->
-                this.initializeHistory(patient, from.getValue(), to.getValue()));
+                this.startInitialize(patient, from.getValue(), to.getValue()));
         from.setDayCellFactory(datePicker -> new DateCell() {
             @Override
             public void updateItem(LocalDate localDate, boolean b) {
@@ -54,21 +56,29 @@ public class SecondaryController {
             }
         });
         from.valueProperty().addListener((observableValue, localDate, t1) ->
-                this.initializeHistory(patient, from.getValue(), to.getValue()));
+                this.startInitialize(patient, from.getValue(), to.getValue()));
     }
 
     @FXML
-    private void switchToPrimary() throws IOException {
+    private void switchToPrimary() {
         App.setRoot("primary");
     }
 
     public void setPatient(PatientData patient) {
         this.patient = patient;
-        initializeHistory(patient, null, null);
+        name.setText(patient.firstName() + " " + patient.lastName());
+        startInitialize(patient, null, null);
+    }
+
+    private void startInitialize(PatientData patientData, @Nullable LocalDate begin, @Nullable LocalDate end) {
+        new Thread(() -> initializeHistory(patientData, begin, end)).start();
     }
 
     private void initializeHistory(PatientData patientData, @Nullable LocalDate begin, @Nullable LocalDate end) {
-        history.getChildren().clear();
+        Platform.runLater(() -> {
+            startLoading();
+            history.getChildren().clear();
+        });
         var patientHistory = App.db.getPatientHistory(patientData, begin, end);
         LocalDate actual = null;
 
@@ -76,12 +86,40 @@ public class SecondaryController {
             if (actual == null || !actual.equals(h.getWhen())) {
                 actual = h.getWhen();
 //                history.getChildren().add(new Text(dataFormatter.format(actual)));
-                ListItem.generateDate(history, dataFormatter.format(actual));
+                LocalDate finalActual = actual;
+                Platform.runLater(() -> ListItem.generateDate(history, dataFormatter.format(finalActual)));
+            } else {
+                Separator sep = new Separator();
+                sep.setOrientation(Orientation.HORIZONTAL);
+                sep.setPadding(new Insets(0, 35, 0, 35));
+                Platform.runLater(() -> history.getChildren().add(sep));
             }
 //            history.getChildren().add(
 //                    new Text(h.getTitle())
 //            );
-            ListItem.generateHistory(history, h.getTitle());
+            if (h instanceof PatientObservationElement) {
+                Platform.runLater(() -> ListItem.generateHistory(history, h.getTitle(), h.getDetail()));
+            } else if (h instanceof PatientMedicationElement) {
+                Platform.runLater(() -> ListItem.generateHistory(history, (PatientMedicationElement) h));
+            } else {
+                Platform.runLater(() -> ListItem.generateHistory(history, h.getTitle(), null));
+            }
+            Platform.runLater(() -> stopLoading());
         }
     }
+
+    private void startLoading() {
+        progress.setDisable(false);
+        progress.setVisible(true);
+        to.setDisable(true);
+        from.setDisable(true);
+    }
+
+    private void stopLoading() {
+        progress.setDisable(true);
+        progress.setVisible(false);
+        to.setDisable(false);
+        from.setDisable(false);
+    }
+
 }

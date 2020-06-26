@@ -15,9 +15,14 @@
     -fx-text-fill: white;
 }
 
+.label{
+    -fx-font-weight: bold;
+    -fx-font-size: 25pt;
+}
+
 .bad {
     -fx-text-alignment: center;
-
+    -fx-padding: 10 0 10 0;
 }
 
 .scroll-bar:vertical .track, .increment-button, .decrement-button {
